@@ -11,8 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="ShopBundle\Repository\ProductRepository")
  */
-class Product
-{
+class Product {
     /**
      * @var int
      *
@@ -41,18 +40,16 @@ class Product
      */
     private $categories;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->categories = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -62,8 +59,7 @@ class Product
      * @param string $name
      * @return Product
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -72,10 +68,9 @@ class Product
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -85,8 +80,7 @@ class Product
      * @param string $price
      * @return Product
      */
-    public function setPrice($price)
-    {
+    public function setPrice($price) {
         $this->price = $price;
 
         return $this;
@@ -95,15 +89,32 @@ class Product
     /**
      * Get price
      *
-     * @return string 
+     * @return string
      */
-    public function getPrice()
-    {
+    public function getPrice() {
         return $this->price;
     }
 
+    /**
+     * @param Category $category
+     * @return ArrayCollection|Category[]
+     */
+    public function removeCategory(Category $category) {
+
+        if ($this->categories->contains($category)) {
+            $this->categories->remove($category);
+        }
+    }
+
+    /**
+     * @param Category $category
+     * @return ArrayCollection|Category[]
+     */
     public function addCategory(Category $category) {
+
+        $category->addProduct($this);
         $this->categories[] = $category;
+
     }
 
     /**

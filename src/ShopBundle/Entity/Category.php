@@ -11,8 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="ShopBundle\Repository\CategoryRepository")
  */
-class Category
-{
+class Category {
     /**
      * @var int
      *
@@ -35,13 +34,30 @@ class Category
      */
     private $products;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->products = new ArrayCollection();
     }
 
+    /**
+     * @param Category $product
+     * @return ArrayCollection|Category[]
+     */
+    public function removeProduct(Product $product) {
+
+        if ($this->products->contains($product)) {
+            $this->products->remove($product);
+        }
+
+        return $this->products;
+    }
+
+    /**
+     * @param Product $product
+     * @return array|ArrayCollection|Product[]
+     */
     public function addProduct(Product $product) {
-        $this->products[] = $product;
+            //$product->addCategory($this);
+            $this->products[] = $product;
     }
 
     /**
@@ -54,10 +70,9 @@ class Category
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -67,8 +82,7 @@ class Category
      * @param string $name
      * @return Category
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -77,10 +91,9 @@ class Category
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 }
