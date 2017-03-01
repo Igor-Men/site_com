@@ -16,7 +16,7 @@
                 </div>
                 <div class="row">
 
-                    {% for product in products %}
+                    {% for product in pagination %}
                         <div class="col-xs-6 col-lg-4">
                             <h2>{{ product.name }}</h2>
                             <span>{{ product.price }}</span>
@@ -43,6 +43,9 @@
             </div><!--/.sidebar-offcanvas-->
         </div><!--/row-->
 
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
         <hr>
 
         <footer>

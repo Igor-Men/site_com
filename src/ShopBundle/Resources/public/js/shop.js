@@ -5,5 +5,5 @@ $(document).ready(function () {
 
     setTimeout(function(){
         $('#myModal').modal();
-    }, 3000);
+    }, 60000);
 });
