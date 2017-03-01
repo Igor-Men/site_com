@@ -1,0 +1,26 @@
+{% extends "ShopBundle::base.html.twig" %}
+
+{% block title %}ShopBundle:Category:category{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <h1>list of products</h1>
+            <ul>
+                {% for product in category.products %}
+                    <li>
+                        <h3>
+                            <a href="{{ path('product_name', {
+                                'name' : product.name
+                            }) }}">{{ product.name }}</a> ( {{ product.price }} USD)
+                        </h3>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+{% endblock %}
