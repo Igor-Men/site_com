@@ -6,9 +6,22 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use ShopBundle\Entity\Product;
 use ShopBundle\Entity\Category;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use ShopBundle\Entity\User;
 
 
-class LoadFixtures implements FixtureInterface {
+class LoadFixtures implements FixtureInterface, ContainerAwareInterface {
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null) {
+        $this->container = $container;
+    }
+
 
     public function load(ObjectManager $manager) {
 
@@ -48,14 +61,14 @@ class LoadFixtures implements FixtureInterface {
 
         $product_4->addCategory($category_3);
 
-       /* $category_1->addProduct($product_1);
-        $category_1->addProduct($product_2);
+        /* $category_1->addProduct($product_1);
+         $category_1->addProduct($product_2);
 
-        $category_2->addProduct($product_1);
-        $category_2->addProduct($product_2);
-        $category_2->addProduct($product_3);
+         $category_2->addProduct($product_1);
+         $category_2->addProduct($product_2);
+         $category_2->addProduct($product_3);
 
-        $category_3->addProduct($product_4);*/
+         $category_3->addProduct($product_4);*/
 
         $manager->persist($product_1);
         $manager->persist($product_2);
@@ -84,6 +97,18 @@ class LoadFixtures implements FixtureInterface {
             $manager->persist($category);
             $manager->flush();
         }
+
+
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        $user = $userManager->createUser();
+        $user->setUsername('admin');
+        $user->setEmail('admin@admin.com');
+        $user->setPlainPassword('password');
+        $user->setEnabled(true);
+        $user->setRoles(array('ROLE_ADMIN'));
+
+        $userManager->updateUser($user, true);
     }
 
 }
