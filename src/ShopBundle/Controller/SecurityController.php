@@ -15,19 +15,16 @@ use Gregwar\Captcha\CaptchaBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 
-class SecurityController extends Controller
-{
+class SecurityController extends Controller {
     /**
      * @param Request $request
      *
      * @return Response
      */
-    public function loginAction(Request $request)
-    {
+    public function loginAction(Request $request) {
         /** @var $session \Symfony\Component\HttpFoundation\Session\Session */
         $session = $request->getSession();
         $authErrorKey = Security::AUTHENTICATION_ERROR;
@@ -55,18 +52,11 @@ class SecurityController extends Controller
             ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
             : null;
 
-
-
         $builder = new CaptchaBuilder();
         $builder->build();
         $builder->save('out.jpg');
 
-        //$session = new Session();
-        //$session->start();
-
-        var_dump($session->get('phrase'));
-
-        $session->set('phrase', $builder->getPhrase());
+        $session->set('captcha', $builder->getPhrase());
 
         return $this->renderLogin(array(
             'last_username' => $lastUsername,
@@ -83,18 +73,15 @@ class SecurityController extends Controller
      *
      * @return Response
      */
-    protected function renderLogin(array $data)
-    {
+    protected function renderLogin(array $data) {
         return $this->render('@FOSUser/Security/login.html.twig', $data);
     }
 
-    public function checkAction()
-    {
+    public function checkAction() {
         throw new \RuntimeException('You must configure the check path to be handled by the firewall using form_login in your security firewall configuration.');
     }
 
-    public function logoutAction()
-    {
+    public function logoutAction() {
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
     }
 }

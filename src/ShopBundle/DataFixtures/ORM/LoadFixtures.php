@@ -104,7 +104,7 @@ class LoadFixtures implements FixtureInterface, ContainerAwareInterface {
         $user = $userManager->createUser();
         $user->setUsername('admin');
         $user->setEmail('admin@admin.com');
-        $user->setPlainPassword('password');
+        $user->setPlainPassword('admin');
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_ADMIN'));
 
